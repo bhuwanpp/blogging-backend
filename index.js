@@ -7,13 +7,13 @@ const { Client, Pool } = require('pg')
 const port = 4000
 app.use(cors())
 
+
 const client = new Client({
-    user: 'postgres',
-    host: '127.0.0.1',
-    database: 'blogging',
-    password: '12345678',
-    port: 5432
-})
+    connectionString: 'postgres://root:GzWPeJv6HODIqI1mjH8UyvvprIGc3rAv@dpg-co6irf8l6cac73a9p1p0-a.singapore-postgres.render.com/blogging_kfua',
+    ssl: {
+        rejectUnauthorized: false, // This is required to connect to Render's PostgreSQL instance
+    },
+});
 
 client
     .connect()
@@ -44,14 +44,14 @@ client
         console.log('Error connecting to postgres database', err)
     })
 
-const pool = new Pool({
-    user: 'postgres',
-    host: '127.0.0.1',
-    database: 'blogging',
-    password: '12345678',
-    port: 5432
 
-})
+const pool = new Pool({
+    connectionString: 'postgres://root:GzWPeJv6HODIqI1mjH8UyvvprIGc3rAv@dpg-co6irf8l6cac73a9p1p0-a.singapore-postgres.render.com:5432/blogging_kfua',
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+
 
 app.get('/', (req, res) => {
     res.send('Backend for todo')
