@@ -98,6 +98,21 @@ app.delete('/blogs/:id', async (req, res) => {
     }
 
 })
+app.put('/blogs/:id', async (req, res) => {
+    try {
+        const id = req.params.id
+        const { blog } = req.body
+        const query = 'UPDATE allblogs SET blog = $1 WHERE id = $2 RETURNING *'
+        const values = [blog, id]
+        const result = await pool.query(query, values)
+        res.json(result.rows[0])
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ err: 'an error occurred' }, err)
+
+    }
+
+})
 app.listen(port, () => {
     console.log('listening to the port', port)
 })
